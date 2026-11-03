@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "Dev Library" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Dev Library">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0a0d3a">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%# A snapshot of a reader is stale the moment pages turn; always load it fresh. %>
+    <meta name="turbo-cache-control" content="no-cache">
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <%# The reading surface carries no decoration: no nav, no logo, no mesh (FR-030, FR-045). %>
+    <%= shared_stylesheet_tags %>
+    <%= stylesheet_link_tag "shared/reader_themes", "pages/reader", "data-turbo-track": "dynamic" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="reader">
+    <%= yield %>
+  </body>
+</html>

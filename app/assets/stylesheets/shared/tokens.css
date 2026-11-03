@@ -1,0 +1,93 @@
+/*
+ * Design tokens from DESIGN.md (constitution Principle IV). Every colour, spacing, radius,
+ * type and elevation value in the app comes from here; page stylesheets only reference
+ * these variables.
+ *
+ * Breakpoints (DESIGN.md › Responsive Strategy), used as literal media queries because
+ * custom properties can't appear in them:
+ *   mobile  < 768px · tablet 768–1023px · laptop 1024–1279px · desktop ≥ 1280px
+ */
+:root {
+  /* Brand & accent */
+  --color-primary: #5865f2;        /* Blurple: everyday actions, bands, stat cards */
+  --color-on-primary: #ffffff;
+  --color-green: #35ed7e;          /* the single highest-intent action on a page */
+  --color-magenta: #ec48bd;        /* gradient panels, badges */
+  --color-link: #00b0f4;           /* inline links on dark surfaces */
+
+  /* Surface */
+  --color-canvas: #0a0d3a;
+  --color-surface-indigo: #1e2353;
+  --color-surface-onyx: #23272a;
+  --color-surface-black: #000000;
+
+  /* Text */
+  --color-ink: #ffffff;
+  --color-ink-dark: #000000;
+  --color-muted: #333333;
+
+  /* Derived from the tokens above (secondary text, hairlines, overlays on dark surfaces) */
+  --color-ink-soft: rgb(255 255 255 / 0.72);
+  --color-ink-faint: rgb(255 255 255 / 0.48);
+  --color-hairline: rgb(255 255 255 / 0.12);
+  --color-scrim: rgb(10 13 58 / 0.72);
+  --color-danger: #ff6b8b;         /* errors: a lighter magenta that stays legible on indigo */
+  /* Inline links: Link Cyan lifted toward white so it reads clearly on indigo without an underline. */
+  --color-link-strong: color-mix(in srgb, var(--color-link) 72%, var(--color-ink));
+
+  /* Brand gradient (DESIGN.md › Brand Gradient) */
+  --gradient-brand: linear-gradient(135deg, var(--color-primary) 0%, #8b5cf6 50%, var(--color-magenta) 100%);
+
+  /* Typography (DESIGN.md › Font Family: open substitutes) */
+  --font-display: "Hanken Grotesk", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --type-display-xl-size: 82px;   --type-display-xl-weight: 800;  --type-display-xl-leading: 1;
+  --type-display-lg-size: 62px;   --type-display-lg-weight: 800;  --type-display-lg-leading: 1.05;
+  --type-display-md-size: 56px;   --type-display-md-weight: 700;  --type-display-md-leading: 1.05;
+  --type-heading-lg-size: 48px;   --type-heading-lg-weight: 700;  --type-heading-lg-leading: 1.1;
+  --type-heading-sm-size: 22px;   --type-heading-sm-weight: 700;  --type-heading-sm-leading: 1.2;
+  --type-body-lg-size: 20px;      --type-body-lg-weight: 500;     --type-body-lg-leading: 1.4;
+  --type-link-lg-size: 18px;      --type-link-lg-weight: 500;     --type-link-lg-leading: 1.4;
+  --type-body-size: 16px;         --type-body-weight: 400;        --type-body-leading: 1.5;
+  --type-link-size: 16px;         --type-link-weight: 500;        --type-link-leading: 1.4;
+  --type-link-sm-size: 14px;      --type-link-sm-weight: 500;     --type-link-sm-leading: 1.4;
+  --type-link-inline-weight: 600; /* plain inline links: no underline, so weight and colour mark them */
+
+  /* Spacing (base unit 8px) */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-section: 40px;
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 40px;
+  --radius-pill: 50px;
+  --radius-jumbo: 120px;
+  --radius-full: 9999px;
+
+  /* Elevation (DESIGN.md › Elevation & Depth) */
+  --shadow-float: 0 3px 68px rgba(69, 42, 124, 0.1);
+
+  /* Layout */
+  --container-max: 1200px;
+  --gutter: var(--space-md);
+  --tap-target: 44px;
+
+  /* Motion. DESIGN.md has no motion scale; the page turn follows research R4. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 150ms;
+  --motion-page-turn: 250ms;
+}
+
+@media (min-width: 768px) {
+  :root { --gutter: var(--space-xl); }
+}

@@ -1,0 +1,9 @@
+<%#
+  The app-wide modal (constitution Principle I, research R9). Links open a view in it with
+  data-turbo-frame="modal"; new/edit views render inside turbo_frame_tag "modal". A Turbo
+  Stream that empties the frame closes it.
+%>
+<dialog class="modal" aria-label="Dialog" data-controller="modal"
+        data-action="turbo:frame-load->modal#open close->modal#clear click->modal#closeOnBackdrop">
+  <%= turbo_frame_tag "modal" %>
+</dialog>

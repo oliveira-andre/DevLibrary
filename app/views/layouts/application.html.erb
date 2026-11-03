@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "Dev Library" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Dev Library">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0a0d3a">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <%# Shared tokens and components on every page; page styles come through :stylesheets (Principle IV). %>
+    <%= shared_stylesheet_tags %>
+    <%= yield :stylesheets %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <%= render "shared/nav" if authenticated? %>
+    <%= render "shared/flash" %>
+
+    <main id="main" class="container">
+      <%= yield %>
+    </main>
+
+    <%= render "shared/modal" %>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<% content_for :title, "Sign in · Dev Library" %>
+
+<header class="auth-card__header">
+  <h1 class="auth-card__title">Welcome back</h1>
+  <p class="auth-card__lead">Sign in to pick up right where you left off.</p>
+</header>
+
+<%= form_with url: session_path, class: "auth-form" do |form| %>
+  <div class="field">
+    <%= form.label :email_address, "Email", class: "field__label" %>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username",
+          placeholder: "you@example.com", value: params[:email_address], class: "input" %>
+  </div>
+
+  <div class="field">
+    <div class="field__label-row">
+      <%= form.label :password, "Password", class: "field__label" %>
+      <%= link_to "Forgot password?", new_password_path %>
+    </div>
+    <%= form.password_field :password, required: true, autocomplete: "current-password",
+          placeholder: "Your password", maxlength: 72, class: "input" %>
+  </div>
+
+  <%= form.submit "Sign in", class: "button button-primary button-block" %>
+<% end %>
+
+<p class="auth-card__switch">New to Dev Library? <%= link_to "Create an account", new_registration_path %></p>

@@ -1,0 +1,12 @@
+<%#
+  The reader's preferences as data (contracts/reader-client.md §1). Settings and direction
+  changes replace this element through Turbo Streams; on connect it tells the reader.
+%>
+<% override = position&.reading_direction %>
+<%= tag.div id: "reader_preferences", hidden: true, data: {
+      controller: "reader-preferences",
+      reader_preferences_animation_value: user.reader_page_animation,
+      reader_preferences_theme_value: user.reader_theme,
+      reader_preferences_text_size_value: user.reader_text_size,
+      reader_preferences_direction_value: override || book.reading_direction,
+      reader_preferences_direction_override_value: override.to_s } %>

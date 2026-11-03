@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="modal__body" id="modal_body">
+    <div class="modal__header">
+      <h2 class="heading">Reading settings</h2>
+    </div>
+    <p class="text-soft">They apply to every book, on every device you read on.</p>
+    <%= render "reading_settings/form", user: @user %>
+    <div class="modal__actions">
+      <button type="button" class="button button-primary" data-action="modal#close">Done</button>
+    </div>
+  </div>
+<% end %>

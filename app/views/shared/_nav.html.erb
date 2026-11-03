@@ -1,0 +1,25 @@
+<%# Top navigation: the wordmark links home on the left, the account menu sits on the right (FR-037). %>
+<header class="nav">
+  <div class="container nav__inner">
+    <%= link_to home_path, class: "nav__brand" do %>
+      <%= image_tag "brand/wordmark-64.webp", alt: "Dev Library", width: 137, height: 32 %>
+    <% end %>
+
+    <div class="menu" data-controller="menu">
+      <button type="button" class="menu__toggle" aria-expanded="false" aria-controls="account-menu"
+              aria-label="Account menu" data-menu-target="toggle" data-action="menu#toggle">
+        <%= icon "user" %>
+        <span class="menu__name"><%= Current.user.name.presence || Current.user.email_address %></span>
+      </button>
+
+      <div id="account-menu" class="menu__panel" data-menu-target="panel" hidden>
+        <%= link_to edit_reading_settings_path, class: "menu__item", data: { turbo_frame: "modal", action: "menu#hide" } do %>
+          <%= icon "settings" %><span>Reading settings</span>
+        <% end %>
+        <%= button_to session_path, method: :delete, class: "menu__item" do %>
+          <%= icon "log-out" %><span>Sign out</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</header>

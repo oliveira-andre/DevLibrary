@@ -1,0 +1,7 @@
+<%# Flash messages inside the auth card, above the form they are about. %>
+<% if flash[:alert].present? %>
+  <div class="auth-card__message auth-card__message--alert" role="alert"><%= flash[:alert] %></div>
+<% end %>
+<% if flash[:notice].present? %>
+  <div class="auth-card__message auth-card__message--notice" role="status"><%= flash[:notice] %></div>
+<% end %>

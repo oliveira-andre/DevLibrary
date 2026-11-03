@@ -1,0 +1,25 @@
+/*
+ * Reading-surface themes (constitution Principle IV: where book content renders, legibility
+ * outranks brand expression). The reader engines read these values for EPUB text, and the
+ * pager uses them around fixed-layout pages. Reader chrome keeps the DESIGN.md colours.
+ */
+[data-reader-theme="light"] {
+  --reader-bg: #ffffff;
+  --reader-fg: #1a1a1a;
+  --reader-link: #1d5bd6;
+  --reader-surround: #e9e9ee;
+}
+
+[data-reader-theme="sepia"] {
+  --reader-bg: #f4ecd8;
+  --reader-fg: #5b4636;
+  --reader-link: #8a4b14;
+  --reader-surround: #e6dbc2;
+}
+
+[data-reader-theme="dark"] {
+  --reader-bg: #121212;
+  --reader-fg: #e0e0e0;
+  --reader-link: #8ab4ff;
+  --reader-surround: #000000;
+}

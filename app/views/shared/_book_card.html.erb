@@ -1,0 +1,12 @@
+<%# A catalog card: cover over title, opening the book page, plus a one-tap Read (FR-005). %>
+<article id="<%= dom_id(book) %>" class="book-card">
+  <%= link_to book_path(book), class: "book-card__cover", tabindex: -1, aria: { hidden: true } do %>
+    <%= cover_image_tag(book) %>
+  <% end %>
+  <%= link_to book.title, book_path(book), class: "book-card__title", title: book.title %>
+  <div class="book-card__actions">
+    <%= link_to book_reader_path(book), class: "button button-ghost-sm", aria: { label: "Read #{book.title}" } do %>
+      <%= icon "book-open" %><span>Read</span>
+    <% end %>
+  </div>
+</article>

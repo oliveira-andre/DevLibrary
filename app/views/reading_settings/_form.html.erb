@@ -1,0 +1,50 @@
+<%#
+  Reading settings, saved on the account as soon as they change (FR-034). Inside the reader
+  the form carries the book, so the response also refreshes the open reader.
+%>
+<% sizes = User::ReadingSettings::TEXT_SIZES %>
+<% size_index = sizes.index(user.reader_text_size_was || user.reader_text_size) || 2 %>
+<%= form_with model: user, scope: :reading_settings, url: reading_settings_path, method: :patch,
+      id: "reading_settings_form", class: "settings-form",
+      data: { controller: "auto-submit", action: "change->auto-submit#submit" } do |form| %>
+  <%= hidden_field_tag :book_id, book.public_id, id: nil if local_assigns[:book] %>
+
+  <% if user.errors.any? %>
+    <div class="error-summary" role="alert"><%= user.errors.full_messages.to_sentence %></div>
+  <% end %>
+
+  <div class="field settings-form__group">
+    <label class="switch">
+      <span>Animate page turns</span>
+      <%= form.check_box :reader_page_animation, role: "switch", aria: { describedby: "reader_page_animation_hint" } %>
+    </label>
+    <span class="field__hint" id="reader_page_animation_hint">Pages change instantly when off.</span>
+  </div>
+
+  <fieldset class="field settings-form__group">
+    <legend class="field__label">Theme</legend>
+    <div class="segmented">
+      <% %w[light sepia dark].each do |theme| %>
+        <%= form.radio_button :reader_theme, theme %>
+        <%= form.label :reader_theme, theme.capitalize, value: theme %>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <div class="field settings-form__group">
+    <span class="field__label" id="reader_text_size_label">Text size</span>
+    <div class="stepper" role="group" aria-labelledby="reader_text_size_label">
+      <%= form.button name: "reading_settings[reader_text_size]", value: sizes[[ size_index - 1, 0 ].max],
+            class: "icon-button", disabled: size_index.zero?, aria: { label: "Smaller text" } do %>
+        <%= icon "minus" %>
+      <% end %>
+      <output class="stepper__value"><%= sizes[size_index] %>%</output>
+      <%= form.button name: "reading_settings[reader_text_size]", value: sizes[[ size_index + 1, sizes.size - 1 ].min],
+            class: "icon-button", disabled: size_index == sizes.size - 1, aria: { label: "Larger text" } do %>
+        <%= icon "plus" %>
+      <% end %>
+    </div>
+  </div>
+
+  <p class="settings-form__status" role="status"><%= "Saved" if local_assigns[:saved] %></p>
+<% end %>

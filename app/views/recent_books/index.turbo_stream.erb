@@ -1,0 +1,3 @@
+<%= turbo_stream.append "recent_books", partial: "shared/book_card", collection: @recent.books, as: :book %>
+<%= turbo_stream.replace "recent_books_more", partial: "shared/see_more",
+      locals: { id: "recent_books_more", url: (recent_books_path(@recent.next_params) if @recent.next_params) } %>

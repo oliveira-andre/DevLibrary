@@ -1,0 +1,22 @@
+<% page_stylesheet "pages/home" %>
+
+<h1 class="visually-hidden">Dev Library</h1>
+
+<% if @collection.any? %>
+  <%= render "home/collection", entries: @collection %>
+<% end %>
+
+<section class="section" aria-labelledby="recent-heading">
+  <div class="section__header">
+    <h2 id="recent-heading" class="display">Newest books</h2>
+  </div>
+
+  <% if @recent.books.any? %>
+    <div id="recent_books" class="book-grid">
+      <%= render partial: "shared/book_card", collection: @recent.books, as: :book %>
+    </div>
+    <%= render "shared/see_more", id: "recent_books_more", url: (recent_books_path(@recent.next_params) if @recent.next_params) %>
+  <% else %>
+    <%= render "shared/empty_state", title: "No books yet", message: "New books show up here as soon as they're published." %>
+  <% end %>
+</section>

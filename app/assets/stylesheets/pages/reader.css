@@ -1,0 +1,288 @@
+/*
+ * The reader (002 US3, US4). Chrome (toolbar, footer, panel) follows DESIGN.md; the reading
+ * surface uses only the theme tokens from shared/reader_themes.css (FR-030). Mobile first.
+ */
+
+body.reader {
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+#reader {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "toolbar" "surface" "footer";
+  background: var(--reader-surround);
+}
+
+/* Tapping the middle of the page hides the chrome so the page gets the whole screen. */
+#reader[data-reader-chrome="hidden"] {
+  grid-template-rows: 0 1fr 0;
+}
+
+#reader[data-reader-chrome="hidden"] .reader__toolbar,
+#reader[data-reader-chrome="hidden"] .reader__footer {
+  visibility: hidden;
+}
+
+.reader__toolbar {
+  grid-area: toolbar;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(env(safe-area-inset-top) + var(--space-xs)) var(--space-sm) var(--space-xs);
+  background: var(--color-canvas);
+  overflow: hidden;
+}
+
+.reader__heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.reader__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: var(--type-link-size);
+  font-weight: var(--type-link-weight);
+}
+
+.reader__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-ink-soft);
+  font-size: var(--type-link-sm-size);
+}
+
+.reader__aa {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+/* The page area. Engines render into it; nothing decorative goes here. */
+.reader-surface {
+  grid-area: surface;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--reader-surround);
+  color: var(--reader-fg);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.reader-surface:focus {
+  outline: none;
+}
+
+.reader-surface:focus-visible {
+  outline: 3px solid var(--color-link);
+  outline-offset: -3px;
+}
+
+/* foliate-js view (EPUB) fills the surface. */
+.reader-surface foliate-view {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--reader-bg);
+}
+
+/* Fixed-layout pager (PDF, comics): the current page and its neighbours side by side. */
+.pager {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* The pager handles swipe, pinch and pan itself. */
+  touch-action: none;
+}
+
+.pager__track {
+  position: absolute;
+  inset: 0;
+}
+
+.pager__page {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.pager__content {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+.pager__content > canvas,
+.pager__content > img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  background: var(--reader-bg);
+  box-shadow: 0 2px 16px rgb(0 0 0 / 0.25);
+}
+
+/* Server- or client-set states, shown over the page area. */
+.reader__state {
+  grid-area: surface;
+  z-index: 2;
+  display: none;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  text-align: center;
+}
+
+#reader[data-reader-state="loading"] .reader__state--loading,
+#reader[data-reader-state="error"] .reader__state--error,
+#reader[data-reader-state="unsupported"] .reader__state--unsupported,
+#reader[data-reader-state="unavailable"] .reader__state--unavailable,
+#reader[data-reader-state="blocked"] .reader__state--blocked {
+  display: grid;
+}
+
+.reader__spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--color-hairline);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: reader-spin 800ms linear infinite;
+}
+
+@keyframes reader-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reader__spinner { animation-duration: 3s; }
+}
+
+.reader__footer {
+  grid-area: footer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md) calc(env(safe-area-inset-bottom) + var(--space-xs));
+  background: var(--color-canvas);
+  overflow: hidden;
+}
+
+.reader__progress {
+  flex: 1;
+}
+
+.reader__percent {
+  min-width: 4ch;
+  color: var(--color-ink-soft);
+  font-size: var(--type-link-sm-size);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.reader__zoom {
+  display: flex;
+  gap: var(--space-xxs);
+}
+
+.reader__zoom[hidden] {
+  display: none;
+}
+
+/* "Sign in again" when the session ended mid-read. */
+.reader__banner {
+  position: absolute;
+  left: 50%;
+  top: calc(env(safe-area-inset-top) + 72px);
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: min(560px, calc(100% - 2 * var(--space-md)));
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  transform: translateX(-50%);
+  box-shadow: var(--shadow-float);
+}
+
+.reader__banner[hidden] {
+  display: none;
+}
+
+/* Short notices such as "You've reached the end". */
+.reader__toast {
+  position: absolute;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom) + 72px);
+  z-index: 6;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  font-size: var(--type-link-sm-size);
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+.reader__toast.is-visible {
+  opacity: 1;
+}
+
+/* Reading settings: a bottom sheet on phones, a side panel on wider screens. */
+.reader__panel {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 5;
+  display: grid;
+  gap: var(--space-md);
+  max-height: 80dvh;
+  overflow: auto;
+  padding: var(--space-xl) var(--space-xl) calc(env(safe-area-inset-bottom) + var(--space-xl));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  box-shadow: 0 -12px 40px rgb(0 0 0 / 0.4);
+}
+
+.reader__panel[hidden] {
+  display: none;
+}
+
+.reader__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+  .reader__toolbar { padding-inline: var(--space-xl); gap: var(--space-sm); }
+  .reader__footer { padding-inline: var(--space-xl); }
+
+  .reader__panel {
+    inset: 72px var(--space-xl) auto auto;
+    width: 360px;
+    border-radius: var(--radius-xl);
+  }
+}

@@ -1,0 +1,8 @@
+<div id="flash" class="flash" role="status" aria-live="polite">
+  <% flash.each do |type, message| %>
+    <% next unless type.in?(%w[notice alert]) && message.present? %>
+    <div class="flash__message flash__message--<%= type %>" data-controller="dismiss" data-action="click->dismiss#remove">
+      <%= message %>
+    </div>
+  <% end %>
+</div>

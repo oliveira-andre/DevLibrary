@@ -1,0 +1,35 @@
+<%#
+  The reader's collection, most recently read first. Each book opens straight in the reader
+  at the saved position (FR-006–FR-008). The row scrolls sideways: swipe on touch screens,
+  the arrow buttons or arrow keys elsewhere.
+%>
+<section class="section collection" aria-labelledby="collection-heading" data-controller="scroll-row">
+  <div class="section__header">
+    <h2 id="collection-heading" class="display">Your collection</h2>
+    <div class="collection__arrows">
+      <button type="button" class="icon-button" aria-label="Scroll collection back"
+              data-scroll-row-target="previous" data-action="scroll-row#previous">
+        <%= icon "chevron-left" %>
+      </button>
+      <button type="button" class="icon-button" aria-label="Scroll collection forward"
+              data-scroll-row-target="next" data-action="scroll-row#next">
+        <%= icon "chevron-right" %>
+      </button>
+    </div>
+  </div>
+
+  <div id="collection" class="collection__row" tabindex="0" aria-label="Your collection"
+       data-scroll-row-target="row" data-action="scroll->scroll-row#update keydown->scroll-row#key">
+    <% entries.each do |entry| %>
+      <% progress = entry.reading_progress.to_f.round %>
+      <%= link_to book_reader_path(entry.book), class: "collection__item", id: dom_id(entry.book, :collection) do %>
+        <span class="collection__cover"><%= cover_image_tag(entry.book) %></span>
+        <span class="collection__title"><%= entry.book.title %></span>
+        <span class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+              aria-valuenow="<%= progress %>" aria-label="<%= progress %>% read">
+          <span class="progress__fill" style="width: <%= progress %>%"></span>
+        </span>
+      <% end %>
+    <% end %>
+  </div>
+</section>

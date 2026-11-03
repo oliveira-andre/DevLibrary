@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "Dev Library" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Dev Library">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0a0d3a">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <%# Sign-in, sign-up and password pages: one centered card, no nav (002 FR-043). %>
+    <%= shared_stylesheet_tags %>
+    <%= stylesheet_link_tag "pages/auth", "data-turbo-track": "dynamic" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <main id="main" class="auth">
+      <div class="auth-card">
+        <%= image_tag "brand/wordmark-160.webp", alt: "Dev Library", width: 343, height: 80, class: "auth-card__logo" %>
+        <%= render "layouts/auth_flash" %>
+        <%= yield %>
+      </div>
+
+      <p class="auth__tagline">Read, review and keep your books.</p>
+    </main>
+  </body>
+</html>

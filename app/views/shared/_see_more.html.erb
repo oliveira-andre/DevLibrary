@@ -1,0 +1,10 @@
+<%#
+  "See more" for a list that grows by Turbo Stream appends (research R3). The response
+  appends the next batch and replaces this element with the next link, or with an empty
+  element once nothing is left. No turbo-action: a reload shows the first batch again.
+%>
+<div id="<%= id %>" class="see-more">
+  <% if url %>
+    <%= link_to "See more", url, class: "button button-ghost", data: { turbo_stream: true } %>
+  <% end %>
+</div>

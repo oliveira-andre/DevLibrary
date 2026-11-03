@@ -1,0 +1,125 @@
+/* Cards and containers (DESIGN.md › Cards & Containers). */
+
+/* Book card: cover above, title below (FR-005). */
+.book-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.book-card__cover {
+  display: block;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-float);
+  text-decoration: none;
+}
+
+.book-card__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--color-ink);
+  font-size: var(--type-link-sm-size);
+  font-weight: var(--type-link-sm-weight);
+  line-height: var(--type-link-sm-leading);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.book-card__actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* Actions share the card's width so they line up under the cover. */
+.book-card__actions .button {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .book-card__title {
+    font-size: var(--type-link-size);
+  }
+}
+
+/* Every cover renders at 2:3 so cards line up whether or not a cover exists. */
+.cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--color-surface-indigo);
+}
+
+.cover-placeholder {
+  display: grid;
+  place-items: end start;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  padding: var(--space-sm);
+  background: var(--gradient-brand);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--type-link-sm-size);
+  line-height: 1.15;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.cover-placeholder span {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.feature-card-dark {
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xxl);
+}
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+  max-width: 560px;
+  margin: var(--space-section) auto;
+  padding: var(--space-xxl) var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-indigo);
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--space-xxs) var(--space-sm);
+  border-radius: var(--radius-lg);
+  background: var(--color-magenta);
+  color: var(--color-ink);
+  font-size: var(--type-link-sm-size);
+  font-weight: var(--type-link-sm-weight);
+  line-height: var(--type-link-sm-leading);
+}
+
+/* A thin reading-progress bar (collection row, book page). */
+.progress {
+  display: block;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-hairline);
+  overflow: hidden;
+}
+
+.progress__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+}

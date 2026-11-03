@@ -1,0 +1,93 @@
+/* Home page: newest-books grid and "See more" (002 US1). Mobile first. */
+
+.book-grid {
+  display: grid;
+  /* Two roomy columns on a 360–430px phone (about 170px each at 390px). */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-xl) var(--space-md);
+}
+
+@media (min-width: 768px) {
+  /* Three columns on a tablet, five of about 220px in the 1200px desktop container. */
+  .book-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-xxl) var(--space-xl);
+  }
+}
+
+/* "Your collection": one sideways row of covers with titles below (002 US2). */
+.collection__arrows {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.collection__arrows .icon-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Touch screens swipe the row, so the arrows only appear for mouse and trackpad. */
+@media (pointer: coarse) {
+  .collection__arrows { display: none; }
+}
+
+.collection__row {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  /* Bleed to the screen edge on phones so the next cover peeks in. */
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--space-xxs) var(--gutter) var(--space-sm);
+  scrollbar-width: none;
+}
+
+.collection__row::-webkit-scrollbar {
+  display: none;
+}
+
+.collection__item {
+  flex: 0 0 150px;
+  display: grid;
+  gap: var(--space-xs);
+  align-content: start;
+  scroll-snap-align: start;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.collection__cover {
+  display: block;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-float);
+}
+
+.collection__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--type-link-sm-size);
+  font-weight: var(--type-link-sm-weight);
+  line-height: var(--type-link-sm-leading);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .collection__item { flex-basis: 200px; }
+  .collection__title { font-size: var(--type-link-size); }
+  .collection__row { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
+}
+
+.see-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-xxl);
+}
+
+.see-more .button {
+  min-width: 200px;
+}

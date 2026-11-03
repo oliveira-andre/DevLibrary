@@ -1,0 +1,7 @@
+<% saved = @user.errors.none? %>
+<%= turbo_stream.replace "reading_settings_form", partial: "reading_settings/form",
+      locals: { user: @user, book: @book, saved: saved } %>
+<% if saved && @book %>
+  <%= turbo_stream.replace "reader_preferences", partial: "books/readers/preferences",
+        locals: { book: @book, position: ReadingPosition.for(user: @user, book: @book), user: @user } %>
+<% end %>

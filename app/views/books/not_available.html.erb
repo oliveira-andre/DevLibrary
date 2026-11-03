@@ -1,0 +1,6 @@
+<% content_for :title, "Book not available · Dev Library" %>
+
+<%= render "shared/empty_state",
+      title: "This book isn't available",
+      message: "It may have been removed, or it isn't published yet.",
+      link_text: "Back to home", link_url: home_path %>

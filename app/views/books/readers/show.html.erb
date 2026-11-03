@@ -1,0 +1,102 @@
+<% content_for :title, "#{@book.title} · Dev Library" %>
+<%#
+  The reader shell (contracts/reader-client.md §1). The server renders the start position
+  and preferences; the reader controller loads the engine for the format and takes over.
+  CBR and file-less books get their final state here and never load an engine.
+%>
+<% state = if !@book.file.attached? then "error" elsif @book.file_format == "cbr" then "unsupported" else "loading" end %>
+
+<%= tag.main id: "reader", data: {
+      controller: "reader",
+      action: "reader-preferences:changed->reader#applyPreferences",
+      reader_format_value: @book.file_format.to_s,
+      reader_file_url_value: book_file_path(@book),
+      reader_position_url_value: book_reading_position_path(@book),
+      reader_book_id_value: @book.public_id,
+      reader_user_id_value: Current.user.id,
+      reader_start_location_value: @position&.location.to_s,
+      reader_start_progress_value: (@position&.progress || 0).to_d.to_s,
+      reader_start_read_at_value: @position&.read_at&.utc&.iso8601.to_s,
+      # Signing in again goes through the reader itself, which redirects to sign-in and back.
+      reader_sign_in_url_value: book_reader_path(@book),
+      reader_state: state,
+      reader_theme: Current.user.reader_theme,
+      reader_animation: Current.user.reader_page_animation ? "slide" : "none",
+      reader_zoomed: "false",
+      reader_chrome: "shown" } do %>
+
+  <%= render "books/readers/preferences", book: @book, position: @position, user: Current.user %>
+
+  <header class="reader__toolbar">
+    <%= link_to home_path, class: "icon-button reader__back", aria: { label: "Back" } do %>
+      <%= icon "arrow-left" %>
+    <% end %>
+    <div class="reader__heading">
+      <h1 class="reader__title"><%= @book.title %></h1>
+      <p class="reader__label" data-reader-target="label"></p>
+    </div>
+    <% if state == "loading" %>
+      <%= render "books/readers/direction_form", book: @book, position: @position %>
+      <button type="button" class="icon-button" aria-label="Reading settings" aria-expanded="false"
+              aria-controls="reader_settings_panel" data-reader-target="settingsToggle" data-action="reader#toggleSettings">
+        <span class="reader__aa" aria-hidden="true">Aa</span>
+      </button>
+    <% end %>
+  </header>
+
+  <div class="reader-surface" data-reader-target="surface" tabindex="0" aria-label="Book page"></div>
+
+  <div class="reader__state reader__state--loading" role="status">
+    <span class="reader__spinner" aria-hidden="true"></span>
+    <span>Opening the book…</span>
+  </div>
+  <div class="reader__state reader__state--error">
+    <h2 class="heading">This book can't be opened</h2>
+    <p class="text-soft">The file may be damaged or missing.</p>
+    <%= link_to "Back to home", home_path, class: "button button-primary" %>
+  </div>
+  <div class="reader__state reader__state--unsupported">
+    <h2 class="heading">This comic can't be opened in the reader yet</h2>
+    <p class="text-soft">Reading CBR comics in the app is coming in a later update.</p>
+    <%= link_to "Back to home", home_path, class: "button button-primary" %>
+  </div>
+  <div class="reader__state reader__state--unavailable">
+    <h2 class="heading">This book isn't available</h2>
+    <p class="text-soft">It may have been removed.</p>
+    <%= link_to "Back to home", home_path, class: "button button-primary" %>
+  </div>
+  <div class="reader__state reader__state--blocked">
+    <h2 class="heading">Your account has been blocked.</h2>
+    <%= link_to "Go to sign-in", new_session_path, class: "button button-primary", data: { turbo: false } %>
+  </div>
+
+  <div class="reader__banner" data-reader-target="banner" role="alert" hidden>
+    <span>Sign in again to keep saving your place.</span>
+    <%= link_to "Sign in again", book_reader_path(@book), class: "button button-white", data: { turbo: false } %>
+  </div>
+
+  <div class="reader__toast" data-reader-target="toast" role="status" aria-live="polite"></div>
+
+  <footer class="reader__footer">
+    <div class="progress reader__progress" role="progressbar" aria-label="Reading progress"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-reader-target="progress">
+      <span class="progress__fill" data-reader-target="progressFill"></span>
+    </div>
+    <span class="reader__percent" data-reader-target="percent"></span>
+    <div class="reader__zoom" data-reader-target="zoomControls" hidden>
+      <button type="button" class="icon-button" aria-label="Zoom out" data-action="reader#zoomOut"><%= icon "minus" %></button>
+      <button type="button" class="icon-button" aria-label="Fit page" data-action="reader#zoomFit"><%= icon "maximize" %></button>
+      <button type="button" class="icon-button" aria-label="Zoom in" data-action="reader#zoomIn"><%= icon "plus" %></button>
+    </div>
+  </footer>
+
+  <% if state == "loading" %>
+    <aside id="reader_settings_panel" class="reader__panel" aria-label="Reading settings" data-reader-target="panel" hidden>
+      <div class="reader__panel-header">
+        <h2 class="heading">Reading settings</h2>
+        <button type="button" class="icon-button" aria-label="Close reading settings" data-action="reader#toggleSettings"><%= icon "x" %></button>
+      </div>
+      <%= render "reading_settings/form", user: Current.user, book: @book %>
+    </aside>
+  <% end %>
+<% end %>

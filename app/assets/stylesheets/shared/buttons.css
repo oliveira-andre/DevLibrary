@@ -1,0 +1,99 @@
+/* Buttons (DESIGN.md › Components › Buttons). Pressed states only; DESIGN.md documents no hover. */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  border: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform var(--motion-fast) var(--ease-out), filter var(--motion-fast) var(--ease-out);
+  user-select: none;
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* The Blurple everyday action. */
+.button-primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--type-link-lg-size);
+  font-weight: var(--type-link-lg-weight);
+  line-height: var(--type-link-lg-leading);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-xl);
+}
+
+/* The single highest-intent action on a page (the book page's Read). Black label. */
+.button-green {
+  background: var(--color-green);
+  color: var(--color-ink-dark);
+  font-size: var(--type-link-lg-size);
+  font-weight: var(--type-link-lg-weight);
+  line-height: var(--type-link-lg-leading);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-xl);
+}
+
+.button-white {
+  background: var(--color-ink);
+  color: var(--color-ink-dark);
+  font-size: var(--type-link-size);
+  font-weight: var(--type-link-weight);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xs) var(--space-md);
+}
+
+.button-ghost {
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  font-size: var(--type-link-size);
+  font-weight: var(--type-link-weight);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xs) var(--space-md);
+}
+
+.button-ghost-sm {
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  font-size: var(--type-link-sm-size);
+  font-weight: var(--type-link-sm-weight);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.button-block {
+  width: 100%;
+}
+
+/* Round icon-only control (heart, toolbar buttons, scroll arrows). */
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  transition: transform var(--motion-fast) var(--ease-out);
+}
+
+.icon-button:active {
+  transform: scale(0.92);
+}
+
+/* `button_to` wraps its button in a form; keep it inline. */
+form.button_to {
+  display: inline;
+}

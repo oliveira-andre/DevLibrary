@@ -1,0 +1,12 @@
+<% content_for :title, "Newest books · Dev Library" %>
+<% page_stylesheet "pages/home" %>
+
+<section class="section" aria-labelledby="recent-heading">
+  <div class="section__header">
+    <h1 id="recent-heading" class="display">Newest books</h1>
+  </div>
+  <div id="recent_books" class="book-grid">
+    <%= render partial: "shared/book_card", collection: @recent.books, as: :book %>
+  </div>
+  <%= render "shared/see_more", id: "recent_books_more", url: (recent_books_path(@recent.next_params) if @recent.next_params) %>
+</section>

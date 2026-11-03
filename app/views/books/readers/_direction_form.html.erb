@@ -1,0 +1,10 @@
+<%# Flips the reading direction for this reader and book; the book's own direction clears the override (FR-026). %>
+<% current = position&.reading_direction || book.reading_direction %>
+<% target = current == "rtl" ? "ltr" : "rtl" %>
+<% label = "Switch to #{target == "rtl" ? "right-to-left" : "left-to-right"}" %>
+<%= form_with url: book_reading_direction_path(book), method: :patch, id: "reader_direction_form", class: "reader__direction" do |form| %>
+  <%= hidden_field_tag :direction, target == book.reading_direction ? "" : target, id: nil %>
+  <button type="submit" class="icon-button" aria-label="<%= label %>" title="<%= label %>">
+    <%= icon "arrow-left-right" %>
+  </button>
+<% end %>

@@ -1,0 +1,124 @@
+/*
+ * Sign-in, sign-up, forgot and reset password: one centered card on the animated mesh
+ * (DESIGN.md › ex-auth-form-card: feature-card chrome with text inputs inside; 002 FR-043).
+ * Mobile first: the card fills the width between gutters, then caps at 440px.
+ */
+
+.auth {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--space-lg);
+  min-height: 100dvh;
+  padding:
+    max(var(--space-xl), env(safe-area-inset-top))
+    var(--gutter)
+    max(var(--space-xl), env(safe-area-inset-bottom));
+}
+
+.auth-card {
+  display: grid;
+  gap: var(--space-xl);
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-xxl) var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-indigo);
+  box-shadow: var(--shadow-float), 0 24px 64px rgb(0 0 0 / 0.35);
+}
+
+.auth-card__logo {
+  justify-self: center;
+  width: 100%;
+  max-width: 274px;
+  height: auto;
+}
+
+.auth-card__header {
+  display: grid;
+  gap: var(--space-xs);
+  text-align: center;
+}
+
+/* Loud and all-caps like every DESIGN.md headline, sized for a card. */
+.auth-card__title {
+  font-family: var(--font-display);
+  font-size: var(--type-heading-sm-size);
+  font-weight: var(--type-display-xl-weight);
+  line-height: var(--type-heading-sm-leading);
+  text-transform: uppercase;
+}
+
+.auth-card__title,
+.auth-card__lead {
+  text-wrap: balance;
+}
+
+.auth-card__lead {
+  color: var(--color-ink-soft);
+}
+
+/* Inputs share the card's indigo; the deeper canvas keeps them reading as fields. */
+.auth-card .input {
+  background: var(--color-canvas);
+}
+
+.auth-card__message {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--type-link-sm-size);
+  line-height: var(--type-link-sm-leading);
+}
+
+.auth-card__message--alert {
+  border: 1px solid var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 12%, transparent);
+}
+
+.auth-card__message--notice {
+  border: 1px solid var(--color-green);
+  background: color-mix(in srgb, var(--color-green) 12%, transparent);
+}
+
+/* The card's own messages replace the error summary's outer margin. */
+.auth-card .error-summary {
+  margin: 0;
+}
+
+.auth-form .button {
+  margin-top: var(--space-xl);
+}
+
+/* Password label with "Forgot password?" on the same line. */
+.field__label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.field__label-row a {
+  font-size: var(--type-link-sm-size);
+}
+
+.auth-card__switch {
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: var(--type-link-sm-size);
+}
+
+.auth__tagline {
+  color: var(--color-ink-faint);
+  font-size: var(--type-link-sm-size);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .auth-card {
+    padding: var(--space-section) var(--space-xxl);
+  }
+
+  .auth-card__logo {
+    max-width: 343px;
+  }
+}

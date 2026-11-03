@@ -1,0 +1,61 @@
+/* The app-wide modal (constitution Principle I; research R9; DESIGN.md › ex-modal-card). */
+
+.modal {
+  width: min(560px, calc(100% - 2 * var(--gutter)));
+  max-height: calc(100dvh - 2 * var(--space-xl));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-float), 0 24px 64px rgb(0 0 0 / 0.45);
+  overflow: auto;
+}
+
+.modal::backdrop {
+  background: var(--color-scrim);
+  backdrop-filter: blur(4px);
+}
+
+.modal[open] {
+  animation: modal-in 200ms var(--ease-out);
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal[open] { animation: none; }
+}
+
+.modal__body {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-xxl) var(--space-xl) var(--space-xl);
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+/* On phones the modal rises from the bottom as a sheet. */
+@media (max-width: 767px) {
+  .modal {
+    width: 100%;
+    max-width: none;
+    margin: auto 0 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

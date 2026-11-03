@@ -1,0 +1,10 @@
+<% link_text = local_assigns[:link_text] %>
+<div class="empty-state">
+  <h2 class="heading"><%= title %></h2>
+  <% if local_assigns[:message] %>
+    <p class="text-soft"><%= message %></p>
+  <% end %>
+  <% if link_text %>
+    <%= link_to link_text, local_assigns.fetch(:link_url), class: "button button-primary" %>
+  <% end %>
+</div>

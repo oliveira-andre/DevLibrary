@@ -1,0 +1,4 @@
+<%= turbo_stream.replace "reader_preferences", partial: "books/readers/preferences",
+      locals: { book: @book, position: @position, user: Current.user } %>
+<%= turbo_stream.replace "reader_direction_form", partial: "books/readers/direction_form",
+      locals: { book: @book, position: @position } %>

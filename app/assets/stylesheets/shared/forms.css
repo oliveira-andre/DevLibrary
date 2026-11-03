@@ -1,0 +1,197 @@
+/* Inputs and forms: indigo surfaces with lg radius (DESIGN.md › Inputs & Forms). */
+
+.field {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.field + .field {
+  margin-top: var(--space-md);
+}
+
+.field__label {
+  font-size: var(--type-link-sm-size);
+  font-weight: var(--type-link-sm-weight);
+  color: var(--color-ink-soft);
+}
+
+.field__hint {
+  font-size: var(--type-link-sm-size);
+  color: var(--color-ink-faint);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-indigo);
+  color: var(--color-ink);
+  /* 16px keeps iOS from zooming into the field. */
+  font-size: var(--type-body-size);
+}
+
+.input::placeholder {
+  color: var(--color-ink-faint);
+}
+
+/* No outline ring on fields: focus shows as a Blurple border instead, which still tells
+   keyboard users where they are. */
+.input,
+.select {
+  transition: border-color var(--motion-fast) var(--ease-out);
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.field--invalid .input,
+.input[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.field__error {
+  color: var(--color-danger);
+  font-size: var(--type-link-sm-size);
+}
+
+.error-summary {
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger);
+  color: var(--color-ink);
+  background: rgb(255 107 139 / 0.12);
+}
+
+.error-summary ul {
+  margin: var(--space-xxs) 0 0;
+  padding-left: var(--space-lg);
+}
+
+/* A segmented choice (reader theme, sort): radio inputs styled as pills. */
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-xxs);
+  padding: var(--space-xxs);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-indigo);
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented label {
+  display: inline-grid;
+  place-items: center;
+  min-height: var(--tap-target);
+  min-width: var(--tap-target);
+  padding-inline: var(--space-md);
+  border-radius: var(--radius-sm);
+  font-weight: var(--type-link-weight);
+  cursor: pointer;
+}
+
+.segmented input:checked + label {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.segmented input:focus-visible + label {
+  outline: 3px solid var(--color-link);
+  outline-offset: 2px;
+}
+
+/* − value + control (reader text size). */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.stepper__value {
+  min-width: 5ch;
+  text-align: center;
+  font-weight: var(--type-link-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.stepper .icon-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Reading settings (reader panel and account-menu modal). */
+.settings-form {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.settings-form__group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.settings-form__status {
+  min-height: 1.4em;
+  color: var(--color-green);
+  font-size: var(--type-link-sm-size);
+}
+
+/* An on/off switch built on a checkbox with role="switch". */
+.switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: var(--tap-target);
+  cursor: pointer;
+}
+
+.switch input {
+  appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 52px;
+  height: 32px;
+  margin: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-hairline);
+  transition: background var(--motion-fast) var(--ease-out);
+}
+
+.switch input::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-ink);
+  transition: transform var(--motion-fast) var(--ease-out);
+}
+
+.switch input:checked {
+  background: var(--color-primary);
+}
+
+.switch input:checked::after {
+  transform: translateX(20px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch input,
+  .switch input::after {
+    transition: none;
+  }
+}
